@@ -1,4 +1,5 @@
-//Main background script for JiffyGIF
+/* Main background script for JiffyGIF*|
+|* Copyright (C) 2014 Ezra Brooks     */
 function main(details){ //where the magic happens
 	if(details.url.lastIndexOf('.gif') != -1){
 		console.log("It's a GIF!");
