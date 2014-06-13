@@ -2,20 +2,30 @@
 function main(details){ //where the magic happens
 	if(details.url.lastIndexOf('.gif') != -1){
 		console.log("It's a GIF!");
+		var gifTabId = details.tabId;
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', 'http://gfycat.com/cajax/checkUrl/' + encodeURIComponent(encodeURI(details.url)), false);
 		xhr.send();
-		console.log(xhr.response);
-		//handle checking here
-		if(xhr.response.urlKnown == true){
-			//go to the gfycat page
+		var gfyData = JSON.parse(xhr.response)
+		if(xhr.status >= 300){
+			console.log("Contacting gfycat failed. HTTP error " + xhr.status + ".");
 		}else{
-			//upload it to gfycat
+			console.log(gfyData);
+			if(gfyData.urlKnown == true){
+				chrome.tabs.update(gifTabId, {url:gfyData.gfyUrl});
+				//go to the gfycat page
+			}else{
+				//upload it to gfycat
+			}
 		}
 	}
+	listenForNavigate();
 }
-chrome.runtime.onInstalled.addListener(function(details){ //DOUBLE EVENT LISTENERS ALL THE WAY ACROSS THE SKY
-	chrome.webNavigation.onBeforeNavigate.addListener(function(details){ //WHAT DOES IT MEAN
-		main(details); //It means that this script will only really trigger each time a tab navigates to a new URL.
-	});
+function listenForNavigate(){
+	chrome.webNavigation.onBeforeNavigate.addListener(function(details){
+		main(details); //call the main function when any tab navigates to a new URL.
+	})
+}
+chrome.runtime.onInstalled.addListener(function(details){ //On installation/upgrade, call the function to bind a listener to navigation.
+	listenForNavigate();
 });
