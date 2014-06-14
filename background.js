@@ -7,16 +7,25 @@ function main(details){ //where the magic happens
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', 'http://gfycat.com/cajax/checkUrl/' + encodeURIComponent(encodeURI(details.url)), false);
 		xhr.send();
-		var gfyData = JSON.parse(xhr.response)
+		var gfyData = JSON.parse(xhr.response);
 		if(xhr.status >= 300){
 			console.log("Contacting gfycat failed. HTTP error " + xhr.status + ".");
 		}else{
 			console.log(gfyData);
-			if(gfyData.urlKnown == true){
+			if(gfyData.urlKnown == true){ //go to the gfycat page
 				chrome.tabs.update(gifTabId, {url:gfyData.gfyUrl});
-				//go to the gfycat page
-			}else{
-				//upload it to gfycat
+			}else{ //upload it to gfycat
+				var length = int(math.random() * 5) + 5;
+				var key = '';
+				for(var i = 0; i >= length; i++){
+					var randNum = int(math.random() * 16);
+					key += randNum.toString(16);
+				}
+				var uploadxhr = new XMLHttpRequest();
+				uploadxhr.open('GET', 'http://upload.gfycat.com/transcode/' + key + '?fetchUrl=' + encodeURIComponent(encodeURI(details.url)), false);
+				uploadxhr.send();
+				var gfyResponse = JSON.parse(uploadxhr.response);
+				chrome.tabs.update(gifTabId, {url:"http://www.gfycat.com/" + gfyResponse.gfyname});
 			}
 		}
 	}
