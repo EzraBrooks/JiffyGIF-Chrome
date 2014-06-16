@@ -15,10 +15,10 @@ function main(details){ //where the magic happens
 			if(gfyData.urlKnown == true){ //go to the gfycat page
 				chrome.tabs.update(gifTabId, {url:gfyData.gfyUrl});
 			}else{ //upload it to gfycat
-				var length = int(math.random() * 5) + 5;
-				var key = '';
-				for(var i = 0; i >= length; i++){
-					var randNum = int(math.random() * 16);
+				var epochTime = Math.round(Date.now() / 1000).toString();
+				var key = epochTime.slice(4, epochTime.length);
+				for(var i = 0; i >= 10 - key.length; i++){
+					var randNum = Math.round(Math.random() * 16);
 					key += randNum.toString(16);
 				}
 				var uploadxhr = new XMLHttpRequest();
