@@ -2,7 +2,7 @@
 |* Copyright (C) 2014 Ezra Brooks     */
 function main(details){ //where the magic happens
 	if(details.url.lastIndexOf('.gif') != -1){
-		console.log("It's a GIF!");
+		//console.log("It's a GIF!");
 		var gifTabId = details.tabId;
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', 'http://gfycat.com/cajax/checkUrl/' + encodeURIComponent(encodeURI(details.url)), false);
@@ -11,12 +11,12 @@ function main(details){ //where the magic happens
 		if(xhr.status >= 300){
 			console.log("Contacting gfycat failed. HTTP error " + xhr.status + ".");
 		}else{
-			console.log(gfyData);
+			//console.log(gfyData);
 			if(gfyData.urlKnown == true){ //go to the gfycat page
 				chrome.tabs.update(gifTabId, {url:gfyData.gfyUrl});
 			}else{ //upload it to gfycat
 				var epochTime = Math.round(Date.now() / 1000).toString();
-				var key = epochTime.slice(4, epochTime.length);
+				var key = epochTime.slice(epochTime.length - 6, epochTime.length);
 				for(var i = 0; i >= 10 - key.length; i++){
 					var randNum = Math.round(Math.random() * 16);
 					key += randNum.toString(16);
