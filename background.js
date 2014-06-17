@@ -32,10 +32,6 @@ function main(details){ //where the magic happens
 	listenForNavigate();
 }
 function listenForNavigate(){
-	chrome.webNavigation.onBeforeNavigate.addListener(function(details){
-		main(details); //call the main function when any tab navigates to a new URL.
-	})
+	chrome.webNavigation.onBeforeNavigate.addListener(function(details){main(details)});
 }
-chrome.runtime.onInstalled.addListener(function(details){ //On installation/upgrade, call the function to bind a listener to navigation.
-	listenForNavigate();
-});
+chrome.runtime.onInstalled.addListener(listenForNavigate());
