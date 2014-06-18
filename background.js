@@ -31,7 +31,8 @@ function main(details){ //where the magic happens
 	}
 	listenForNavigate();
 }
-function listenForNavigate(){
+function listenForNavigate(){ //Luckily, because JS is awesome, calling this function multiple times in one session won't add multiple listeners.
 	chrome.webNavigation.onBeforeNavigate.addListener(function(details){main(details)});
 }
-chrome.runtime.onInstalled.addListener(listenForNavigate());
+chrome.runtime.onStartup.addListener(listenForNavigate());	//When Chrome opens and initializes itself, call the above function.
+chrome.runtime.onInstalled.addListener(listenForNavigate()); //When the extension is installed or updated, call the above function.
