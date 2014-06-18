@@ -5,12 +5,13 @@
   "description": "This extension replaces .GIF images with their HTML5 video equivalent via gfycat.",
   "version": "0.2",
   "background":{
-    "scripts":["background.js"],
+    "scripts": ["background.js"],
     "persistent": false
   },
   "permissions": [
     "<all_urls>",
     "webNavigation",
-    "tabs"
+    "tabs",
+    "history"
   ]
 }

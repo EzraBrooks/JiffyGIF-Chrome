@@ -27,6 +27,7 @@ function main(details){ //where the magic happens
 				var gfyResponse = JSON.parse(uploadxhr.response);
 				chrome.tabs.update(gifTabId, {url:"http://www.gfycat.com/" + gfyResponse.gfyname});
 			}
+			chrome.history.deleteUrl({url:details.url}); //make sure the GIF page doesn't stay in history if gfycat is a bit slow to load
 		}
 	}
 	listenForNavigate();
@@ -34,5 +35,5 @@ function main(details){ //where the magic happens
 function listenForNavigate(){ //Luckily, because JS is awesome, calling this function multiple times in one session won't add multiple listeners.
 	chrome.webNavigation.onBeforeNavigate.addListener(function(details){main(details)});
 }
-chrome.runtime.onStartup.addListener(listenForNavigate());	//When Chrome opens and initializes itself, call the above function.
-chrome.runtime.onInstalled.addListener(listenForNavigate()); //When the extension is installed or updated, call the above function.
+chrome.runtime.onStartup.addListener(function(){listenForNavigate()});	//When Chrome opens and initializes itself, call the above function.
+chrome.runtime.onInstalled.addListener(function(){listenForNavigate()}); //When the extension is installed or updated, call the above function.
