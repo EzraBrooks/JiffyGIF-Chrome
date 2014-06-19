@@ -30,7 +30,6 @@ function main(details){ //where the magic happens
 			chrome.history.deleteUrl({url:details.url}); //make sure the GIF page doesn't stay in history if gfycat is a bit slow to load
 		}
 	}
-	listenForNavigate();
 }
 function listenForNavigate(){ //Luckily, because JS is awesome, calling this function multiple times in one session won't add multiple listeners.
 	chrome.webNavigation.onBeforeNavigate.addListener(function(details){main(details)});
