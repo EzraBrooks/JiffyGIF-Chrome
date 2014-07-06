@@ -1,15 +1,15 @@
 /* Main background script for JiffyGIF*|
 |* Copyright (C) 2014 Ezra Brooks     */
 function main(details){ //where the magic happens
-	if(details.url.lastIndexOf('.gif') != -1){
+	if(details.url.lastIndexOf('.gif') + ".gif".length = details.url.length){
 		//console.log("It's a GIF!");
 		var gifTabId = details.tabId;
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', 'http://gfycat.com/cajax/checkUrl/' + encodeURIComponent(encodeURI(details.url)), false);
-		xhr.send();
-		var gfyData = JSON.parse(xhr.response);
-		if(xhr.status >= 300){
-			console.log("Contacting gfycat failed. HTTP error " + xhr.status + ".");
+		var gfyChecker = new XMLHttpRequest();
+		gfyChecker.open('GET', 'http://gfycat.com/cajax/checkUrl/' + encodeURIComponent(encodeURI(details.url)), false);
+		gfyChecker.send();
+		var gfyData = JSON.parse(gfyChecker.response);
+		if(gfyChecker.status >= 300){
+			console.log("Contacting gfycat failed. HTTP error " + gfyChecker.status + ".");
 		}else{
 			//console.log(gfyData);
 			if(gfyData.urlKnown == true){ //go to the gfycat page
@@ -32,8 +32,10 @@ function main(details){ //where the magic happens
 	}
 	listenForNavigate();
 }
-function listenForNavigate(){ //Luckily, because JS is awesome, calling this function multiple times in one session won't add multiple listeners.
-	chrome.webNavigation.onBeforeNavigate.addListener(function(details){main(details)});
+function listenForNavigate(){
+	if(!chrome.webNavigation.onBeforeNavigate.hasListeners()){
+		chrome.webNavigation.onBeforeNavigate.addListener(function(details){main(details)});
+	}
 }
 chrome.runtime.onStartup.addListener(function(){listenForNavigate()});	//When Chrome opens and initializes itself, call the above function.
 chrome.runtime.onInstalled.addListener(function(){listenForNavigate()}); //When the extension is installed or updated, call the above function.
