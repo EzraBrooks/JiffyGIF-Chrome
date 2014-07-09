@@ -1,4 +1,4 @@
-/* jiffyMain background script for JiffyGIF*|
+/* Main background script for JiffyGIF*|
 |* Copyright (C) 2014 Ezra Brooks     */
 function jiffyMain(details){ //where the magic happens
 	if(details.type == 'main_frame' && details.url.lastIndexOf('.gif') + '.gif'.length == details.url.length){
