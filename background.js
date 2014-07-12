@@ -1,7 +1,7 @@
 /* Main background script for JiffyGIF*|
 |* Copyright (C) 2014 Ezra Brooks     */
 function jiffyMain(details){ //where the magic happens
-	if(details.type == 'main_frame' && details.url.lastIndexOf('.gif') + '.gif'.length == details.url.length){
+	if(details.type == 'main_frame'){
 		//console.log('It's a GIF!');
 		var gfyChecker = new XMLHttpRequest();
 		gfyChecker.open('GET', 'http://gfycat.com/cajax/checkUrl/' + encodeURIComponent(encodeURI(details.url)), false);
@@ -34,7 +34,7 @@ function jiffyMain(details){ //where the magic happens
 }
 function listenForRequest(){
 	if(!chrome.webRequest.onBeforeRequest.hasListener(jiffyMain)){
-		chrome.webRequest.onBeforeRequest.addListener(jiffyMain, {urls:['https://*/*','http://*/*']}, ['blocking']);
+		chrome.webRequest.onBeforeRequest.addListener(jiffyMain, {urls:['https://*/*.gif','http://*/*.gif']}, ['blocking']);
 	}
 }
 chrome.runtime.onStartup.addListener(listenForRequest);	//When Chrome opens and initializes itself, call the above function.
