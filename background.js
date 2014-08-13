@@ -1,5 +1,6 @@
 /* Main background script for JiffyGIF*|
 |* Copyright (C) 2014 Ezra Brooks     */
+//TODO: Detect HTTPS Everywhere extension via extension ID and Chrome Extension connect function to avoid webRequest interference
 function jiffyMain(details){ //where the magic happens
 	if(details.type == 'main_frame'){
 		//console.log('It's a GIF!');
