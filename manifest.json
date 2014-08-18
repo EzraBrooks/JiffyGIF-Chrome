@@ -3,7 +3,7 @@
 
   "name": "JiffyGIF",
   "description": "This extension replaces .GIF images with their HTML5 video equivalent via gfycat.",
-  "version": "0.3",
+  "version": "1.0",
   "background":{
     "scripts": ["background.js"]
   },
